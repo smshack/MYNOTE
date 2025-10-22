@@ -1,0 +1,1 @@
+{"version":3,"sources":["vscode_editor.js"],"names":["console","log"],"mappings":";;AAAAA,OAAO,CAACC,GAAR,CAAY,oBAAZ","sourcesContent":["console.log(\"Hello, JavaScript!\");"],"file":"vscode_editor.dev.js"}

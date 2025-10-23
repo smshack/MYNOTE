@@ -1,0 +1,3 @@
+[submodule "02-KNOWLEDGE/devops/configuration_management/git/git-basic"]
+	path = 02-KNOWLEDGE/devops/configuration_management/git/git-basic
+	url = https://github.com/smshack/git-basic.git

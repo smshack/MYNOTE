@@ -80,3 +80,9 @@
 현재 전체 공부 및 일정을 관리하기 위해 옵시디언을 사용중이고 깃으로 연결해 놓은 상태
 해당 옵시디언 폴더에서 전체 프로젝트 및 정리를 하여 관리 하기 위해 submodule로 하위 디렉터리에서 관리해서 보고 각 프로젝트가 독립적으로 관리되기를 원하므로 submodule 형식으로 관리
 ```
+
+### 실제 적용
+```bash
+git submodule add https://github.com/smshack/git-basic.git 02-KNOWLEDGE/devops/configuration_management/git/git-basic
+```
+- 현재 옵시디언으로 정리하는 곳 하위에 관리 원함

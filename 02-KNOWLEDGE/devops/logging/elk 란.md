@@ -2,6 +2,7 @@
 tags:
   - logging
   - 로깅
+  - elk
 ---
 
 ## ELK Stack (Elastic Stack) 상세 설명

@@ -54,28 +54,6 @@ Jenkins는 오픈 소스 자동화 서버로, 지속적인 통합(CI) 및 지속
 
 ```mermaid
 graph LR
-    A[GitLab: Code Commit] --> B{Jenkins: 빌드 트리거}
-    B --> C[Jenkins: 코드 빌드 및 테스트}
-    C --> D[Jenkins: Docker 이미지 생성]
-    D --> E[Harbor: Docker 이미지 저장]
-    E --> F[Jenkins: Kubernetes 배포 (직접)]
-    F --> G[Mattermost: 알림]
-
-    subgraph 도커 인스턴스
-        B
-        C
-        D
-        E
-        F
-    end
-
-    style G fill:#f9f,stroke:#333,stroke-width:2px
-```
-
-
-
-```mermaid
-graph LR
     A[GitLab: Code Commit] --> B{Jenkins: 빌드 트리거};
     B --> C[Jenkins: 코드 빌드 및 테스트];
     C --> D[SonarQube: 코드 품질 분석];
@@ -95,6 +73,13 @@ graph LR
     style I fill:#f9f,stroke:#333,stroke-width:2px
 ```
 
+- **GitLab:** 개발자가 코드를 커밋하는 소스 코드 저장소.
+- **Jenkins:** CI/CD 파이프라인을 자동화하는 서버.
+- **SonarQube:** 코드 품질 분석 도구. (쿠버네티스 환경에 추가)
+- **Harbor:** Docker 이미지를 저장하고 관리하는 개인 레지스트리.
+- **ArgoCD:** GitOps 기반으로 Kubernetes 클러스터에 애플리케이션을 배포하는 도구.
+- **Kubernetes Cluster:** 컨테이너화된 애플리케이션을 실행하는 플랫폼.
+- **Mattermost:** 빌드, 테스트, 배포 결과를 알림으로 전송하는 협업 도구.
 
 ### 4. Jenkins 장점 및 단점
 

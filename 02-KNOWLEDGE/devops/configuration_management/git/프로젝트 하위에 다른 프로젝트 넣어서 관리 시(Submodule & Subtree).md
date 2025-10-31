@@ -97,5 +97,7 @@ git submodule add https://github.com/smshack/git-basic.git 02-KNOWLEDGE/devops/c
 git submodule init
 git submodule update
 
-##
+#한줄로 > `--recursive`는 서브모듈 안에 또 다른 서브모듈이 있을 경우까지 모두 가져옴
+git submodule update --init --recursive
+
 ```

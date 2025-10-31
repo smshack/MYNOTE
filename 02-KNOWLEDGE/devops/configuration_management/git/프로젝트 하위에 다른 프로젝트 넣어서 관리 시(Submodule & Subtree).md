@@ -90,3 +90,12 @@ tags:
 git submodule add https://github.com/smshack/git-basic.git 02-KNOWLEDGE/devops/configuration_management/git/git-basic
 ```
 - 현재 옵시디언으로 정리하는 곳 하위에 관리 원함
+
+## submodule 초기화 및 업데이트
+- 깃으로 다운 받았을 때 서브모듈이 제대로 안불러와 지는 경우 수동으로 초기화 및 업데이트 진행
+```bash
+git submodule init
+git submodule update
+
+##
+```

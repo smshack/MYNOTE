@@ -201,3 +201,8 @@ aws cloudtrail list-trails
 aws cloudtrail lookup-events --max-results 10
 
 ```
+
+
+![[aws-cost-check.png]]
+
+![[aws-devops-check.png]]![[aws-devops-cleanup.png]]

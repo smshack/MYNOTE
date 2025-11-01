@@ -22,13 +22,13 @@ msiexec.exe /i https://awscli.amazonaws.com/AWSCLIV2.msi `/qn`
 ### access key, scret key 발급 위치
 > AWS 콘솔 -> IAM -> 사용자 -> 보안 자격 증명 -> 액세스 키 만들기
 
-![[Pasted image 20251102050553.png]]
+![[aws 사용자 액세스키 생성.png]]
 ### aws configure 설정
 ```bash
 aws configure
 
 ```
-![[Pasted image 20251102051258.png]]
+![[aws cli configure세팅.png]]
 ## aws cli 명령어 목록 정리
 ### 기본 정보 확인
 ```bash

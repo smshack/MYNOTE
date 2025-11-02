@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  gitlab:
+    image: 'gitlab/gitlab-ce:latest'
+    restart: always
+    hostname: gitlab.example.com  # 도메인 없이 호스트네임 설정 (변경 가능)
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://localhost' # 접근 URL 설정 (localhost로 설정)
+        gitlab_rails['gitlab_shell_ssh_port'] = 22 # SSH 포트 설정 (필요시 변경)
+    ports:
+      - '80:80'   # HTTP 포트
+      - '443:443' # HTTPS 포트 (HTTPS 설정은 별도 필요)
+      - '22:22'   # SSH 포트
+    volumes:
+      - './gitlab-config:/etc/gitlab'  # 설정 파일 저장
+      - './gitlab-logs:/var/log/gitlab'  # 로그 파일 저장
+      - './gitlab-data:/var/opt/gitlab'  # 데이터 저장
+    shm_size: '256m' # 성능 향상을 위한 공유 메모리 설정

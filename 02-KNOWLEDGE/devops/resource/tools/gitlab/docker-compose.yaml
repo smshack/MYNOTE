@@ -11,8 +11,8 @@ services:
         gitlab_rails['gitlab_shell_ssh_port'] = 22 # SSH 포트 설정 (필요시 변경)
     ports:
       - '80:80'   # HTTP 포트
-      - '443:443' # HTTPS 포트 (HTTPS 설정은 별도 필요)
-      - '22:22'   # SSH 포트
+      # - '443:443' # HTTPS 포트 (HTTPS 설정은 별도 필요)
+      # - '22:22'   # SSH 포트
     volumes:
       - './gitlab-config:/etc/gitlab'  # 설정 파일 저장
       - './gitlab-logs:/var/log/gitlab'  # 로그 파일 저장

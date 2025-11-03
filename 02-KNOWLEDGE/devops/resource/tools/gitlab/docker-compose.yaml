@@ -10,8 +10,6 @@ services:
       GITLAB_OMNIBUS_CONFIG: |
         external_url 'http://gitlab.smartseoapp.com'
         gitlab_rails['gitlab_shell_ssh_port'] = 22
-    ports:
-      - '8080:80'   # 외부 접근은 nginx가 처리, 내부용 포트
     volumes:
       - ./gitlab-config:/etc/gitlab
       - ./gitlab-logs:/var/log/gitlab

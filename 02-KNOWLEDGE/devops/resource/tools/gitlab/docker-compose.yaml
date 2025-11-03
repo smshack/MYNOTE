@@ -3,6 +3,7 @@ version: '3.8'
 services:
   gitlab:
     image: 'gitlab/gitlab-ce:latest'
+    container_name: gitlab
     restart: always
     hostname: 'gitlab.smartseoapp.com'
     environment:
@@ -10,27 +11,15 @@ services:
         external_url 'http://gitlab.smartseoapp.com'
         gitlab_rails['gitlab_shell_ssh_port'] = 22
     ports:
-      - '8080:80'   # GitLab 내부용 포트 (Nginx가 80을 점유)
+      - '8080:80'   # 외부 접근은 nginx가 처리, 내부용 포트
     volumes:
-      - './gitlab-config:/etc/gitlab'
-      - './gitlab-logs:/var/log/gitlab'
-      - './gitlab-data:/var/opt/gitlab'
+      - ./gitlab-config:/etc/gitlab
+      - ./gitlab-logs:/var/log/gitlab
+      - ./gitlab-data:/var/opt/gitlab
     shm_size: '256m'
     networks:
-      - gitlab-net
-
-  nginx:
-    image: nginx:latest
-    container_name: gitlab-nginx
-    restart: always
-    volumes:
-      - ./nginx/conf.d:/etc/nginx/conf.d
-      - ./nginx/ssl:/etc/nginx/ssl
-    depends_on:
-      - gitlab
-    networks:
-      - gitlab-net
+      - nginx_network
 
 networks:
-  gitlab-net:
-    driver: bridge
+  nginx_network:
+    external: true   # ✅ nginx에서 만든 네트워크를 재사용

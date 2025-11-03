@@ -1,0 +1,75 @@
+services:
+  # PostgreSQL
+  harbor-db:
+    image: postgres:13
+    container_name: harbor-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: harbor123
+      POSTGRES_DB: registry
+    volumes:
+      - ./harbor-db-data:/var/lib/postgresql/data
+    networks:
+      - nginx_network
+
+  # Redis
+  redis:
+    image: redis:6
+    container_name: harbor-redis
+    restart: always
+    volumes:
+      - ./harbor-redis-data:/data
+    networks:
+      - nginx_network
+
+  # Harbor Core + Portal
+  harbor-core:
+    image: goharbor/harbor-core:v2.10.0
+    container_name: harbor-core
+    restart: always
+    depends_on:
+      - harbor-db
+      - redis
+    environment:
+      CORE_SECRET: core123
+      JOBSERVICE_SECRET: job123
+      POSTGRES_PASSWORD: harbor123
+      POSTGRES_USER: postgres
+      POSTGRES_DB: registry
+      REDIS_URL: redis://redis:6379
+    networks:
+      - nginx_network
+
+  harbor-jobservice:
+    image: goharbor/harbor-jobservice:v2.10.0
+    container_name: harbor-jobservice
+    restart: always
+    depends_on:
+      - harbor-core
+    environment:
+      JOBSERVICE_SECRET: job123
+    networks:
+      - nginx_network
+
+  harbor-portal:
+    image: goharbor/harbor-portal:v2.10.0
+    container_name: harbor-portal
+    restart: always
+    depends_on:
+      - harbor-core
+    networks:
+      - nginx_network
+
+  harbor-registry:
+    image: goharbor/registry-photon:v2.10.0
+    container_name: harbor-registry
+    restart: always
+    networks:
+      - nginx_network
+    volumes:
+      - ./registry-data:/var/lib/registry
+
+networks:
+  nginx_network:
+    external: true  # 기존 Nginx에서 만든 네트워크 재사용

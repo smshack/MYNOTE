@@ -1,6 +1,6 @@
 server {
     listen 80;
-    server_name gitlab.smartseoapp.com;
+    server_name example.smartseoapp.com;
 
     location /.well-known/acme-challenge/ {
         root /var/www/certbot;

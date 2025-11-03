@@ -10,9 +10,9 @@ services:
     depends_on:
       - db
     volumes:
-      - ./sonarqube_data:/opt/sonarqube/data
-      - ./sonarqube_logs:/opt/sonarqube/logs
-      - ./sonarqube_extensions:/opt/sonarqube/extensions
+      - ./sonarqube_data:/opt/sonarqube/data:rw
+      - ./sonarqube_logs:/opt/sonarqube/logs:rw
+      - ./sonarqube_extensions:/opt/sonarqube/extensions:rw
     networks:
       - nginx_network  # ✅ nginx와 같은 네트워크 사용
 

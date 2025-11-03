@@ -3,7 +3,7 @@ server {
     server_name example.smartseoapp.com;
 
     location /.well-known/acme-challenge/ {
-        root /var/www/certbot;
+        root /etc/nginx/certbot/www;
     }
 
     location / {

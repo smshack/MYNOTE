@@ -8,4 +8,12 @@ services:
     ports:
       - "80:80"
       - "443:443"
+    volumes:
+      - ./etc_nginx:/etc/nginx/
+    networks:
+      - nginx_network   # ✅ nginx 전용 네트워크 사용
 
+networks:
+  nginx_network:       # ✅ 커스텀 네트워크 정의
+    name: nginx_network  # 네트워크 이름 명시적으로 지정 (선택)
+    driver: bridge        # 일반적인 브리지 네트워크 (기본)

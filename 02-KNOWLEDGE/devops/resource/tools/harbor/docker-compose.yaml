@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   # PostgreSQL
   harbor-db:
@@ -23,7 +25,7 @@ services:
     networks:
       - nginx_network
 
-  # Harbor Core + Portal
+  # Harbor Core
   harbor-core:
     image: goharbor/harbor-core:v2.10.0
     container_name: harbor-core
@@ -38,9 +40,14 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_DB: registry
       REDIS_URL: redis://redis:6379
+    volumes:
+      - ./harbor-config:/etc/harbor       # Harbor 구성 파일
+      - ../nginx/etc_nginx/certbot/conf/live:/etc/harbor/ssl      # SSL 인증서
+      - ./harbor-logs:/var/log/harbor     # 로그
     networks:
       - nginx_network
 
+  # Harbor JobService
   harbor-jobservice:
     image: goharbor/harbor-jobservice:v2.10.0
     container_name: harbor-jobservice
@@ -49,9 +56,12 @@ services:
       - harbor-core
     environment:
       JOBSERVICE_SECRET: job123
+    volumes:
+      - ./harbor-logs:/var/log/harbor     # Core와 동일 로그 공유
     networks:
       - nginx_network
 
+  # Harbor Portal
   harbor-portal:
     image: goharbor/harbor-portal:v2.10.0
     container_name: harbor-portal
@@ -61,6 +71,7 @@ services:
     networks:
       - nginx_network
 
+  # Harbor Registry
   harbor-registry:
     image: goharbor/registry-photon:v2.10.0
     container_name: harbor-registry
@@ -72,4 +83,4 @@ services:
 
 networks:
   nginx_network:
-    external: true  # 기존 Nginx에서 만든 네트워크 재사용
+    external: true

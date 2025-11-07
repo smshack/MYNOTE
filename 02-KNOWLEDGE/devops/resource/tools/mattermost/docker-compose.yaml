@@ -1,0 +1,37 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:15
+    container_name: mattermost-db
+    restart: always
+    environment:
+      - POSTGRES_USER=mmuser
+      - POSTGRES_PASSWORD=mmuser_password
+      - POSTGRES_DB=mattermost
+    volumes:
+      - ./db_data:/var/lib/postgresql/data
+    networks:
+      - nginx_network
+
+  app:
+    image: mattermost/mattermost-team-edition:latest
+    container_name: mattermost-app
+    restart: always
+    depends_on:
+      - db
+    environment:
+      - MM_SQLSETTINGS_DRIVERNAME=postgres
+      - MM_SQLSETTINGS_DATASOURCE=postgres://mmuser:mmuser_password@db:5432/mattermost?sslmode=disable&connect_timeout=10
+      - MM_SERVICESETTINGS_SITEURL=https://mattermost.smartseoapp.com
+      - MM_LOGSETTINGS_CONSOLELEVEL=DEBUG
+    volumes:
+      - ./mattermost_data:/mattermost/data
+    expose:
+      - "8065"
+    networks:
+      - nginx_network
+
+networks:
+  nginx_network:
+    external: true   # ✅ 기존 nginx 컨테이너와 공유

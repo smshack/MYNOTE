@@ -4,6 +4,9 @@
 # DO NOT use localhost or 127.0.0.1, because Harbor needs to be accessed by external clients.
 hostname: harbor.smartseoapp.com
 
+# 외부 HTTPS 프록시를 명시
+external_url: https://harbor.smartseoapp.com
+
 # http related config
 http:
   # port for http, default is 80. If https enabled, this port will redirect to https port

@@ -5,7 +5,7 @@ SYNC_QUOTA=true
 _REDIS_URL_REG=redis://redis:6379/1?idle_timeout_seconds=30
 
 LOG_LEVEL=info
-EXT_ENDPOINT=http://harbor.smartseoapp.com
+EXT_ENDPOINT=https://harbor.smartseoapp.com
 DATABASE_TYPE=postgresql
 POSTGRESQL_HOST=postgresql
 POSTGRESQL_PORT=5432
@@ -22,8 +22,8 @@ PORTAL_URL=http://portal:8080
 TOKEN_SERVICE_URL=http://core:8080/service/token
 HARBOR_ADMIN_PASSWORD=Harbor12345
 MAX_JOB_WORKERS=10
-CORE_SECRET=HMsgNACYQuFOgGW0
-JOBSERVICE_SECRET=RJkRDeG0NUKpLFKf
+CORE_SECRET=3xutFokg1kvjHSVr
+JOBSERVICE_SECRET=iUhqnqlFVRmEZ1k8
 WITH_TRIVY=False
 CORE_URL=http://core:8080
 CORE_LOCAL_URL=http://127.0.0.1:8080
@@ -34,14 +34,14 @@ READ_ONLY=false
 RELOAD_KEY=
 REGISTRY_CONTROLLER_URL=http://registryctl:8080
 REGISTRY_CREDENTIAL_USERNAME=harbor_registry_user
-REGISTRY_CREDENTIAL_PASSWORD=jYfjmnreuyB6I4TQ1WRyCsCGnoSatMlz
-CSRF_KEY=5EtGRDaU5m87i6QB513kqowjEpI9IOCf
-ROBOT_SCANNER_NAME_PREFIX=NFa3mRE9
+REGISTRY_CREDENTIAL_PASSWORD=cVTjhgWWEAC57Mh17BrGHUVXT4HiQ1QL
+CSRF_KEY=01D6iKiFnei4nWRBOl3db8SPV7l5KaLx
+ROBOT_SCANNER_NAME_PREFIX=c0RBGWN4
 PERMITTED_REGISTRY_TYPES_FOR_PROXY_CACHE=docker-hub,harbor,azure-acr,aws-ecr,google-gcr,quay,docker-registry,github-ghcr,jfrog-artifactory
 
 HTTP_PROXY=
 HTTPS_PROXY=
-NO_PROXY=localhost,.local,nginx,127.0.0.1,registry,log,exporter,db,registryctl,redis,portal,core,trivy-adapter,jobservice,.internal,postgresql
+NO_PROXY=.internal,exporter,.local,nginx,db,log,redis,registry,portal,core,postgresql,registryctl,jobservice,trivy-adapter,127.0.0.1,localhost
 
 PORT=8080
 

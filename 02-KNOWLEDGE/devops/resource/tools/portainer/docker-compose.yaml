@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: always
+    networks:
+      - nginx_network     # ✅ nginx-proxy와 같은 네트워크 사용
+    ports:
+      - "9000:9000"       # 직접 접근 (선택사항)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./portainer_data:/data
+    environment:
+      - TZ=Asia/Seoul
+
+networks:
+  nginx_network:
+    external: true        # ✅ 이미 nginx-compose에서 생성된 네트워크 사용

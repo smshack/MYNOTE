@@ -5,7 +5,7 @@
 hostname: harbor.smartseoapp.com
 
 # 외부 HTTPS 프록시를 명시
-external_url: http://harbor.smartseoapp.com
+external_url: https://harbor.smartseoapp.com
 
 # http related config
 http:

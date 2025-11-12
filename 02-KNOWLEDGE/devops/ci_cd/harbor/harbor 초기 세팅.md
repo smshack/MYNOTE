@@ -138,8 +138,3 @@ docker push harbor.smartseoapp.com/smartglass/frontend:$BUILD_NUMBER
 | 백업         | `/data`, `/common/config` 주기 백업            |
 
 ---
-
-원하신다면,  
-제가 **“실무용 Harbor 운영 템플릿 (폴더 구조, compose 파일, cronjob, 백업 스크립트, Jenkins 연계 샘플)”**을 통째로 정리해드릴 수도 있습니다.
-
-👉 그렇게 “운영용 템플릿 세트”까지 정리해드릴까요?

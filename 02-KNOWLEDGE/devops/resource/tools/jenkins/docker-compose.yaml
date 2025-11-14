@@ -12,10 +12,12 @@ services:
       - ./jenkins-data:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
-      - nginx_network  # nginx에서 이미 사용 중인 네트워크를 재사용
+      - nginx_network
     expose:
-      - "8080"  # 외부로 직접 노출하지 않음 (nginx에서만 접근 가능)
+      - "8080"
+    extra_hosts:
+      - "gitlab.smartseoapp.com:3.39.6.147"  # <--- 여기에 추가
 
 networks:
   nginx_network:
-    external: true  # nginx-compose와 동일한 네트워크 사용
+    external: true

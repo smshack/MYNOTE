@@ -173,3 +173,9 @@ curl --header "PRIVATE-TOKEN: <your_access_token>" \
 |Token|GitLab과 Jenkins 동일|
 |Jenkins 플러그인|GitLab Plugin, GitLab API Plugin|
 |자동화 방식|`/api/v4/groups/:id/hooks` REST API 사용 가능|
+
+### 깃랩 레포 젠킨스 아이템 파이프라인 연결
+![[Pasted image 20251115034704.png]]
+![[Pasted image 20251115034724.png]]
+
+![[Pasted image 20251115035024.png]]

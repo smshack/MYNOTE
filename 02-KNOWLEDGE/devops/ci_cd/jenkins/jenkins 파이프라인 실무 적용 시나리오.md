@@ -20,4 +20,14 @@ practice-team/                    ← 조직(회사, 팀) 단위 Group
     └── sonar-reports             ← SonarQube 분석 리포트 저장
 ```
 
-### 
+### 파이프라인 푸시시 각 프로젝트 정보 확인
+![[Pasted image 20251115035528.png]]
+
+### 젠킨스 라이브러리 기능 사용
+
+![[Pasted image 20251115040836.png]]
+
+![[Pasted image 20251115040809.png]]
+
+![[Pasted image 20251115041306.png]]
+![[Pasted image 20251115041316.png]]

@@ -828,3 +828,204 @@ db.inventory.deleteOne( { status: "D" } )
 |---|---|
 |db.collection.deleteMany()|지정된 필터와 일치하는 모든 문서를 삭제합니다.|
 |db.collection.remove()|지정된 필터와 일치하는 단일 문서 또는 모든 문서를 삭제합니다.|
+# 집계 파이프라인
+
+## 예시 데이터 insert
+
+```sql
+db.orders.insertMany( [
+   { _id: 0, name: "Pepperoni", size: "small", price: 19,
+     quantity: 10, date: ISODate( "2021-03-13T08:14:30Z" ) },
+   { _id: 1, name: "Pepperoni", size: "medium", price: 20,
+     quantity: 20, date : ISODate( "2021-03-13T09:13:24Z" ) },
+   { _id: 2, name: "Pepperoni", size: "large", price: 21,
+     quantity: 30, date : ISODate( "2021-03-17T09:22:12Z" ) },
+   { _id: 3, name: "Cheese", size: "small", price: 12,
+     quantity: 15, date : ISODate( "2021-03-13T11:21:39.736Z" ) },
+   { _id: 4, name: "Cheese", size: "medium", price: 13,
+     quantity:50, date : ISODate( "2022-01-12T21:23:13.331Z" ) },
+   { _id: 5, name: "Cheese", size: "large", price: 14,
+     quantity: 10, date : ISODate( "2022-01-12T05:08:13Z" ) },
+   { _id: 6, name: "Vegan", size: "small", price: 17,
+     quantity: 10, date : ISODate( "2021-01-13T05:08:13Z" ) },
+   { _id: 7, name: "Vegan", size: "medium", price: 18,
+     quantity: 10, date : ISODate( "2021-01-13T05:10:13Z" ) }
+] )
+```
+
+## **총 주문 수량 계산**
+
+- 피자 이름별로 그룹화된 중간 크기 피자의 총 주문 수량을 반환
+
+```sql
+db.orders.aggregate( [
+   // Stage 1: Filter pizza order documents by pizza size
+   {
+      $match: { size: "medium" }
+   },
+   // Stage 2: Group remaining documents by pizza name and calculate total quantity
+   {
+      $group: { _id: "$name", totalQuantity: { $sum: "$quantity" } }
+   }
+] )
+```
+
+```sql
+{
+  _id: new Int32(0),
+  name: 'Pepperoni',
+  size: 'small',
+  price: new Int32(19),
+  quantity: new Int32(10),
+  date: 2021-03-13T08:14:30.000Z
+}
+{
+  _id: new Int32(1),
+  name: 'Pepperoni',
+  size: 'medium',
+  price: new Int32(20),
+  quantity: new Int32(20),
+  date: 2021-03-13T09:13:24.000Z
+}
+{
+  _id: new Int32(2),
+  name: 'Pepperoni',
+  size: 'large',
+  price: new Int32(21),
+  quantity: new Int32(30),
+  date: 2021-03-17T09:22:12.000Z
+}
+{
+  _id: new Int32(3),
+  name: 'Cheese',
+  size: 'small',
+  price: new Int32(12),
+  quantity: new Int32(15),
+  date: 2021-03-13T11:21:39.736Z
+}
+{
+  _id: new Int32(4),
+  name: 'Cheese',
+  size: 'medium',
+  price: new Int32(13),
+  quantity: new Int32(50),
+  date: 2022-01-12T21:23:13.331Z
+}
+{
+  _id: new Int32(5),
+  name: 'Cheese',
+  size: 'large',
+  price: new Int32(14),
+  quantity: new Int32(10),
+  date: 2022-01-12T05:08:13.000Z
+}
+{
+  _id: new Int32(6),
+  name: 'Vegan',
+  size: 'small',
+  price: new Int32(17),
+  quantity: new Int32(10),
+  date: 2021-01-13T05:08:13.000Z
+}
+{
+  _id: new Int32(7),
+  name: 'Vegan',
+  size: 'medium',
+  price: new Int32(18),
+  quantity: new Int32(10),
+  date: 2021-01-13T05:10:13.000Z
+}
+```
+
+```sql
+{ _id: 'Cheese', totalQuantity: new Int32(50) }
+{ _id: 'Pepperoni', totalQuantity: new Int32(20) }
+{ _id: 'Vegan', totalQuantity: new Int32(10) }
+```
+
+## **총 주문 금액 및 평균 주문 수량 계산**
+
+- 두 날짜 사이의 총 피자 주문 금액과 평균 주문 수량을 계산
+
+```sql
+db.orders.aggregate( [
+   // Stage 1: Filter pizza order documents by date range
+   {
+      $match:
+      {
+         "date": { $gte: new ISODate( "2020-01-30" ), $lt: new ISODate( "2022-01-30" ) }
+      }
+   },
+   // Stage 2: Group remaining documents by date and calculate results
+   {
+      $group:
+      {
+         _id: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
+         totalOrderValue: { $sum: { $multiply: [ "$price", "$quantity" ] } },
+         averageOrderQuantity: { $avg: "$quantity" }
+      }
+   },
+   // Stage 3: Sort documents by totalOrderValue in descending order
+   {
+      $sort: { totalOrderValue: -1 }
+   }
+ ] )
+```
+
+```sql
+{
+  _id: '2022-01-12',
+  totalOrderValue: new Int32(790),
+  averageOrderQuantity: new Double(30.0)
+}
+{
+  _id: '2021-03-13',
+  totalOrderValue: new Int32(770),
+  averageOrderQuantity: new Double(15.0)
+}
+{
+  _id: '2021-03-17',
+  totalOrderValue: new Int32(630),
+  averageOrderQuantity: new Double(30.0)
+}
+{
+  _id: '2021-01-13',
+  totalOrderValue: new Int32(350),
+  averageOrderQuantity: new Double(10.0)
+}
+```
+
+# 조인
+
+[$lookup (aggregation)](https://www.mongodb.com/docs/manual/reference/operator/aggregation/lookup/#syntax)
+
+```sql
+{
+   $lookup:
+     {
+       from: <collection to join>,
+       localField: <field from the input documents>,
+       foreignField: <field from the documents of the "from" collection>,
+       as: <output array field>
+     }
+}
+
+SELECT *, <output array field>
+FROM collection
+WHERE <output array field> IN (
+   SELECT *
+   FROM <collection to join>
+   WHERE <foreignField> = <collection.localField>
+);
+```
+
+# 인덱싱
+
+[Indexes](https://www.mongodb.com/docs/manual/indexes/)
+
+```sql
+db.products.createIndex(
+  { item: 1, quantity: -1 } ,
+  { name: "query for inventory" }
+)
+```

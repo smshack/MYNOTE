@@ -127,6 +127,23 @@ apt-mark hold kubelet kubeadm kubectl
     
     - CNI(Pod 네트워크) 주소 대역
 ```
+kubeadm reset -f
+rm -rf /etc/kubernetes
+rm -rf /var/lib/kubelet
+rm -rf /etc/cni/net.d
+
+rm -rf ~/.kube # 마스터노드
+mkdir -p ~/.kube
+cp /etc/kubernetes/admin.conf ~/.kube/config
+chown $(id -u):$(id -g) ~/.kube/config
+
+systemctl restart containerd
+systemctl restart kubelet
+
+
+
+
+
 kubeadm init \
   --apiserver-advertise-address=192.168.219.104 \
   --pod-network-cidr=192.168.0.0/16
@@ -151,6 +168,10 @@ kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.27.0/
 ```
 ## 7️⃣ 워커 노드 조인
 ```
+kubeadm token create --print-join-command # 문제 있을시 마스터에서 토큰 다시
+
+
+
 kubeadm join 192.168.219.104:6443 \
 --token xxxx \
 --discovery-token-ca-cert-hash sha256:xxxx
